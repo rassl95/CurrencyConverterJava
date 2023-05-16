@@ -16,7 +16,7 @@ public class Currency<T, K> implements Map<T, K> {
         createCollection();
     }
 
-    public Document getDocument() {
+     Document getDocument() {
         return document;
     }
 
@@ -28,6 +28,7 @@ public class Currency<T, K> implements Map<T, K> {
                 Element valuteElement = (Element) valuteList.item(i);
 
                 // Извлекаем нужные данные из элемента "Valute"
+ //  ? Idea пишет "Unchecked cast: 'java.lang.String' to 'T' "; что ей не нравится и как можно по другому реализовать
                 T valuteName = (T) valuteElement.getElementsByTagName("CharCode").item(0).getTextContent();
                 K valuteValue = (K) valuteElement.getElementsByTagName("Value").item(0).getTextContent();
 

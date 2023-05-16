@@ -16,6 +16,7 @@ public class Main {
             System.out.print(entry.getKey() + " ");
         }
         System.out.println("\n" + "Enter some currency symbol:");
+        // ? не получилось реализовать цикл поиска без учета регистра; не используется переменная key, есть ли другая реализация
         for (String key : collection.keySet()) {
             String x = scanner.next();
             if (collection.containsKey(x)) {
