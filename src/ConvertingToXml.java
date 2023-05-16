@@ -6,24 +6,18 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 
-public class ConvertingToXml implements ConvertToXml {
-    private final URL url = new URL(new SavingXmlFromConfig().getUrl() + GettingCurrentDate.getCurrentDate());
-    private final Path file = Path.of(new SavingXmlFromConfig().getFilePath());
+public class ConvertingToXml {
+    URL url = new URL(new SavingXmlFromConfig().getUrl() + GettingCurrentDate.getCurrentDate());
+    Path file = Path.of(new SavingXmlFromConfig().getFilePath());
+    private final Document document;
 
-    public ConvertingToXml() throws MalformedURLException {
-    }
-
-
-    @Override
-    public Document convertToXml() throws ParserConfigurationException, IOException, SAXException {
-
+    public ConvertingToXml() throws ParserConfigurationException, IOException, SAXException {
         try (InputStream inputStream = url.openStream()) {
             Files.copy(inputStream, file, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
@@ -32,8 +26,10 @@ public class ConvertingToXml implements ConvertToXml {
 
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        Document document = documentBuilder.parse(new SavingXmlFromConfig().getFilePath());
+        this.document = documentBuilder.parse(new SavingXmlFromConfig().getFilePath());
+    }
 
+    public Document getDocument() {
         return document;
     }
 }

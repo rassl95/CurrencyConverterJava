@@ -2,42 +2,26 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-public class Currency<T, K> {
-    private T t;
-    private K k;
-    private Document document;
+public class Currency<T, K> implements Map<T, K> {
+    private final Document document;
+    Map<T, K> dataMap = new HashMap<>();
 
     public Currency(Document document) {
-        this.k = k;
-        this.t = t;
         this.document = document;
+        createCollection();
     }
 
     public Document getDocument() {
         return document;
     }
 
-    public T getT() {
-        return t;
-    }
-
-    public K getK() {
-        return k;
-    }
-
-    void setT(T t) {
-        this.t = t;
-    }
-
-    void setK(K k) {
-        this.k = k;
-    }
 
     public Map<T, K> createCollection() {
-        Map<T, K> dataMap = new HashMap<>();
         NodeList valuteList = getDocument().getElementsByTagName("Valute");
         if (valuteList != null) {
             for (int i = 0; i < valuteList.getLength(); i++) {
@@ -51,5 +35,65 @@ public class Currency<T, K> {
             }
         }
         return dataMap;
+    }
+
+    @Override
+    public int size() {
+        return dataMap.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return dataMap.isEmpty();
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        return dataMap.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+        return dataMap.containsValue(value);
+    }
+
+    @Override
+    public K get(Object key) {
+        return dataMap.get(key);
+    }
+
+    @Override
+    public K put(T key, K value) {
+        return dataMap.put(key, value);
+    }
+
+    @Override
+    public K remove(Object key) {
+        return dataMap.remove(key);
+    }
+
+    @Override
+    public void putAll(Map<? extends T, ? extends K> m) {
+        dataMap.putAll(m);
+    }
+
+    @Override
+    public void clear() {
+        dataMap.clear();
+    }
+
+    @Override
+    public Set<T> keySet() {
+        return dataMap.keySet();
+    }
+
+    @Override
+    public Collection<K> values() {
+        return dataMap.values();
+    }
+
+    @Override
+    public Set<Entry<T, K>> entrySet() {
+        return dataMap.entrySet();
     }
 }
