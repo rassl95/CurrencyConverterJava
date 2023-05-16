@@ -17,8 +17,8 @@ public class Main {
         }
         System.out.println("\n" + "Enter some currency symbol:");
 
-        // ? не получилось реализовать цикл поиска без учета регистра
-        for (String key : collection.keySet()) { // ? не используется переменная, есть ли другая реализация
+        // ? РЅРµ РїРѕР»СѓС‡РёР»РѕСЃСЊ СЂРµР°Р»РёР·РѕРІР°С‚СЊ С†РёРєР» РїРѕРёСЃРєР° Р±РµР· СѓС‡РµС‚Р° СЂРµРіРёСЃС‚СЂР°
+        for (String key : collection.keySet()) { // ? РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїРµСЂРµРјРµРЅРЅР°СЏ, РµСЃС‚СЊ Р»Рё РґСЂСѓРіР°СЏ СЂРµР°Р»РёР·Р°С†РёСЏ
             String x = scanner.next();
             if (collection.containsKey(x)) {
                 System.out.println(collection.get(x) + "   " + GettingCurrentDate.getCurrentDate());
