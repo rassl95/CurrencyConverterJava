@@ -1,3 +1,7 @@
+package com.rassl.github.Service;
+
+import com.rassl.github.Const.Constants;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,7 +10,7 @@ import java.util.Properties;
 
 class SavingXmlFromConfig {
 
-    private static final String CONFIG_FILE = "src\\config.properties";
+
     private String url;
     private String filePath;
 
@@ -24,7 +28,7 @@ class SavingXmlFromConfig {
 
     private void loadConfig() {
         Properties properties = new Properties();
-        try (InputStream input = new FileInputStream(CONFIG_FILE)) {
+        try (InputStream input = new FileInputStream(Constants.GetConfigFile())) {
             properties.load(input);
             url = properties.getProperty("url");
             filePath = properties.getProperty("xml.file.path");
