@@ -1,8 +1,10 @@
 package com.rassl.github;
 
-import com.rassl.github.Model.Currency;
-import com.rassl.github.Service.CreationCollection;
-import com.rassl.github.Service.ServiceCurrentDate;
+import com.rassl.github.model.Currency;
+import com.rassl.github.service.CreationCollection;
+import com.rassl.github.service.CurrencyService;
+import com.rassl.github.service.ServiceCurrentDate;
+import com.rassl.github.service.impl.CurrencyServiceImpl;
 
 import java.util.List;
 import java.util.Scanner;
@@ -12,6 +14,13 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
+        CurrencyService<String, String> service = new CurrencyServiceImpl();
+        service.downloadXml();
+        service.savingXmlFromConfig();
+//        service.createCollectionFromFile();
+
+
         List<Currency<String, String>> list = new CreationCollection().parseXmlFile();
 
         for (Currency<String, String> currency : list) {

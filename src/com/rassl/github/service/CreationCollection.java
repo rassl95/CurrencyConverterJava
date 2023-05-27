@@ -1,6 +1,6 @@
-package com.rassl.github.Service;
+package com.rassl.github.service;
 
-import com.rassl.github.Model.Currency;
+import com.rassl.github.model.Currency;
 
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Element;

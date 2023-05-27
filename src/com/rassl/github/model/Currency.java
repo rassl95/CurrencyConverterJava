@@ -1,8 +1,13 @@
-package com.rassl.github.Model;
+package com.rassl.github.model;
 
 
 import java.util.Objects;
 
+/**
+ * TODO Give me description
+ * @param <T>
+ * @param <K>
+ */
 public class Currency<T, K> {
     private T valuteName;
     private K valuteValue;

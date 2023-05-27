@@ -1,4 +1,4 @@
-package com.rassl.github.Service;
+package com.rassl.github.service;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -16,9 +16,6 @@ import java.nio.file.StandardCopyOption;
 
 
 public class DowloadXml {
-
-    private DowloadXml() {
-    }
 
     public static Document dowloadXml() {
         try {
