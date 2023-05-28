@@ -4,9 +4,10 @@ package com.rassl.github.model;
 import java.util.Objects;
 
 /**
- * TODO Give me description
- * @param <T>
- * @param <K>
+ * This class represents an object of currency with name and value
+ *
+ * @param <T> name
+ * @param <K> value
  */
 public class Currency<T, K> {
     private T valuteName;
@@ -32,6 +33,11 @@ public class Currency<T, K> {
 
     public void setValuteName(T valuteName) {
         this.valuteName = valuteName;
+    }
+
+    @Override
+    public String toString() {
+        return "currency name: " + getValuteName() + ", " + " currency value: " + getValuteValue() + " rubles";
     }
 
     @Override
