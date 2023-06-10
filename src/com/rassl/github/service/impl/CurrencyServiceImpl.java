@@ -2,7 +2,6 @@ package com.rassl.github.service.impl;
 
 import com.rassl.github.model.Currency;
 import com.rassl.github.service.CurrencyService;
-import com.rassl.github.service.ServiceCurrentDate;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -19,13 +18,19 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class CurrencyServiceImpl implements CurrencyService<String, String> {
     private String url;
     private String filePath;
     private List<Currency<String, String>> list = new ArrayList<>();
     private Document document;
+    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static LocalDate date = LocalDate.now();
+    private static final Logger log = Logger.getLogger(CurrencyServiceImpl.class.getName());
 
 
     @Override
@@ -37,7 +42,7 @@ public class CurrencyServiceImpl implements CurrencyService<String, String> {
             url = properties.getProperty("url");
             filePath = properties.getProperty("xml.file.path");
         } catch (IOException e) {
-            System.out.println("Config file's problem");
+            log.severe("Config file's problem "+e.getMessage());
         }
     }
 
@@ -46,28 +51,28 @@ public class CurrencyServiceImpl implements CurrencyService<String, String> {
     public Document downloadXml() {
 
         try {
-            URL url1 = new URL(url + ServiceCurrentDate.getDate());
+            URL url1 = new URL(url + getDate());
             Path file1 = Path.of(filePath);
 
             try (InputStream inputStream = url1.openStream()) {
                 Files.copy(inputStream, file1, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
-                System.out.println("URL's problem");
+                log.severe("URL's problem "+e.getMessage());
             }
             try {
                 DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
                 document = documentBuilder.parse(filePath);
             } catch (ParserConfigurationException e) {
-                System.out.println("XML parser configuration issues");
+                log.severe("XML parser configuration issues "+ e.getMessage());
             } catch (SAXException e) {
-                System.out.println("Problem encountered while processing XML");
+                log.severe("Problem encountered while processing XML "+e.getMessage());
             }
             return document;
         } catch (MalformedURLException e) {
-            System.out.println("URL address problem");
+            log.severe("URL address problem "+e.getMessage());
         } catch (IOException e) {
-            System.out.println("IO problem");
+            log.severe("IO problem "+e.getMessage());
         }
         return document;
     }
@@ -102,26 +107,39 @@ public class CurrencyServiceImpl implements CurrencyService<String, String> {
     @Override
     public void getValueOfCurrency() {
         Scanner scanner = new Scanner(System.in);
-        boolean flag = false;
-        String x = scanner.next();
-        for (Currency<String, String> currency : list) {
-            if (currency.getValuteName().equalsIgnoreCase(x)) {
-                System.out.println(currency.getValuteValue() + " " + ServiceCurrentDate.getDate());
-                flag = true;
-                break;
+
+
+        while (scanner.hasNext()) {
+            boolean flag = false;
+            String x = scanner.next();
+            if (x.equalsIgnoreCase("exit")) break;
+            for (Currency<String, String> currency : list) {
+                if (currency.getValuteName().equalsIgnoreCase(x)) {
+                    System.out.println(currency.getValuteValue() + " " + getDate());
+                    flag = true;
+                    break;
+                }
             }
-        }
-        if (!flag) {
-            System.out.println("Wrong symbol");
+            if (!flag) {
+                System.out.println("Wrong symbol");
+            }
         }
         scanner.close();
     }
+
 
     private static <T> T parseValue(Element element, String tagName) {
         String value = element.getElementsByTagName(tagName).item(0).getTextContent();
         return (T) value;
     }
-}
 
+    public static String getDate() {
+        return date.format(FORMAT);
+    }
+
+//      public static void setDate(String dateString) {
+//        date = LocalDate.parse(dateString, FORMAT);
+//    }
+}
 
 
